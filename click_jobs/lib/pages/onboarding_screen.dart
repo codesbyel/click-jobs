@@ -6,10 +6,10 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget backgroundImage() {
       return Image.asset(
-        'assets/images/work-background-2.kpg',
+        'assets/images/work-background-2.jpg',
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
       );
     }
 
@@ -30,6 +30,7 @@ class OnboardingPage extends StatelessWidget {
                 'Build Your Next\nFuture Career Like\na Master',
                 style: whiteTextStyle.copyWith(
                   fontSize: 32,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               SizedBox(
