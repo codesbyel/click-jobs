@@ -38,10 +38,10 @@ class _SplashPageState extends State<SplashPage> {
             ),
             SizedBox(height: 15),
             Text(
-              'Click Jobs',
+              'CLICK JOBS',
               style: TextStyle(
                 fontSize: 24,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),
             ),
