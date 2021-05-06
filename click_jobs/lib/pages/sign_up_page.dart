@@ -56,7 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
           child: Image.asset(
-            'assets/image_profile.png',
+            'assets/images/user-profile.png',
           ),
         ),
       );
