@@ -1,7 +1,6 @@
 import 'package:click_jobs/widgets/job_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:click_jobs/theme.dart';
-import 'package:click_jobs/widgets/job_tile.dart';
 
 class CategoryPage extends StatelessWidget {
   final String name;
@@ -76,17 +75,17 @@ class CategoryPage extends StatelessWidget {
               height: 24,
             ),
             JobTile(
-              companyLogo: 'assets/icon_google.png',
+              companyLogo: 'assets/images/google-logo.png',
               name: 'Front-End Developer',
               companyName: 'Google',
             ),
             JobTile(
-              companyLogo: 'assets/icon_instagram.png',
+              companyLogo: 'assets/images/instagram-logo.png',
               name: 'UI Designer',
               companyName: 'Instagram',
             ),
             JobTile(
-              companyLogo: 'assets/icon_facebook.png',
+              companyLogo: 'assets/images/facebook-logo.png',
               name: 'Data Scientist',
               companyName: 'Facebook',
             ),
@@ -116,17 +115,17 @@ class CategoryPage extends StatelessWidget {
               height: 24,
             ),
             JobTile(
-              companyLogo: 'assets/icon_google.png',
+              companyLogo: 'assets/images/google-logo.png',
               name: 'Front-End Developer',
               companyName: 'Google',
             ),
             JobTile(
-              companyLogo: 'assets/icon_instagram.png',
+              companyLogo: 'assets/images/instagram-logo.png',
               name: 'UI Designer',
               companyName: 'Instagram',
             ),
             JobTile(
-              companyLogo: 'assets/icon_facebook.png',
+              companyLogo: 'assets/images/facebook-logo.png',
               name: 'Data Scientist',
               companyName: 'Facebook',
             ),
