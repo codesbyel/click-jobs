@@ -39,7 +39,7 @@ class _DetailPageState extends State<DetailPage> {
                   )
                 : Container(),
             Image.asset(
-              'assets/icon_google.png',
+              'assets/images/google-logo.png',
               width: 60,
             ),
             SizedBox(
@@ -56,7 +56,7 @@ class _DetailPageState extends State<DetailPage> {
               height: 2,
             ),
             Text(
-              'Google, Inc • Jakarta',
+              'Google, Inc • Kuala Lumpur',
               style: greyTextStyle,
             ),
           ],
