@@ -22,13 +22,13 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Howdy',
+                      'Welcome!',
                       style: greyTextStyle.copyWith(
                         fontSize: 16,
                       ),
                     ),
                     Text(
-                      'Jason Powell',
+                      'Lucky Blue Smith',
                       style: blackTextStyle.copyWith(
                         fontSize: 24,
                         fontWeight: semiBold,
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   child: Image.asset(
-                    'assets/image_profile.png',
+                    'assets/images/user-profile.png',
                   ),
                 ),
               ],
@@ -87,28 +87,29 @@ class HomePage extends StatelessWidget {
                   width: defaultMargin,
                 ),
                 CategoryCard(
-                  imageUrl: 'assets/image_category1.png',
+                  imageUrl: 'assets/images/web-job-2.png',
                   name: 'Web Developer',
                 ),
                 CategoryCard(
-                  imageUrl: 'assets/image_category2.png',
+                  imageUrl: 'assets/images/mobile-job.png',
                   name: 'Mobile Developer',
                 ),
                 CategoryCard(
-                  imageUrl: 'assets/image_category3.png',
+                  imageUrl: 'assets/images/app-job.png',
                   name: 'App Designer',
                 ),
                 CategoryCard(
-                  imageUrl: 'assets/image_category4.png',
+                  imageUrl: 'assets/images/content-job.png',
                   name: 'Content Writer',
                 ),
                 CategoryCard(
-                  imageUrl: 'assets/image_category5.png',
+                  imageUrl: 'assets/images/video-job.png',
                   name: 'Video Grapher',
                 ),
               ],
             ),
           ),
+          SizedBox(height: 30.0),
         ],
       );
     }
@@ -133,17 +134,17 @@ class HomePage extends StatelessWidget {
               height: 24,
             ),
             JobTile(
-              companyLogo: 'assets/icon_google.png',
+              companyLogo: 'assets/images/google-logo.png',
               name: 'Front-End Developer',
               companyName: 'Google',
             ),
             JobTile(
-              companyLogo: 'assets/icon_instagram.png',
+              companyLogo: 'assets/images/instagram-logo.png',
               name: 'UI Designer',
               companyName: 'Instagram',
             ),
             JobTile(
-              companyLogo: 'assets/icon_facebook.png',
+              companyLogo: 'assets/images/facebook-logo.png',
               name: 'Data Scientist',
               companyName: 'Facebook',
             ),
@@ -168,28 +169,28 @@ class HomePage extends StatelessWidget {
         items: [
           BottomNavigationBarItem(
             icon: Image.asset(
-              'assets/icon_home.png',
+              'assets/icons/Vector.png',
               width: 24,
             ),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
-              'assets/icon_notification.png',
+              'assets/icons/icon-notif.png',
               width: 24,
             ),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
-              'assets/icon_love.png',
+              'assets/icons/icon-wishlist.png',
               width: 24,
             ),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
-              'assets/icon_user.png',
+              'assets/icons/icon-profile.png',
               width: 24,
             ),
             label: '',
@@ -200,7 +201,10 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       bottomNavigationBar: bottomNavBar(),
-      body: body(),
+      body: SafeArea(
+        top: false,
+        child: body(),
+      ),
     );
   }
 }
