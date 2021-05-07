@@ -1,11 +1,18 @@
+import 'package:click_jobs/models/category_model.dart';
+import 'package:click_jobs/providers/category_provider.dart';
+import 'package:click_jobs/providers/user_provider.dart';
 import 'package:click_jobs/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:click_jobs/widgets/category_card.dart';
 import 'package:click_jobs/widgets/job_tile.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context);
+    var categoryProvider = Provider.of<CategoryProvider>(context);
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(
@@ -28,7 +35,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Lucky Blue Smith',
+                      userProvider.user.name,
                       style: blackTextStyle.copyWith(
                         fontSize: 24,
                         fontWeight: semiBold,
@@ -80,33 +87,50 @@ class HomePage extends StatelessWidget {
           ),
           Container(
             height: 200,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                SizedBox(
-                  width: defaultMargin,
-                ),
-                CategoryCard(
-                  imageUrl: 'assets/images/web-job-2.png',
-                  name: 'Web Developer',
-                ),
-                CategoryCard(
-                  imageUrl: 'assets/images/mobile-job.png',
-                  name: 'Mobile Developer',
-                ),
-                CategoryCard(
-                  imageUrl: 'assets/images/app-job.png',
-                  name: 'App Designer',
-                ),
-                CategoryCard(
-                  imageUrl: 'assets/images/content-job.png',
-                  name: 'Content Writer',
-                ),
-                CategoryCard(
-                  imageUrl: 'assets/images/video-job.png',
-                  name: 'Video Grapher',
-                ),
-              ],
+            child: FutureBuilder<List<CategoryModel>>(
+              future: categoryProvider.getCategories(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: snapshot.data
+                        .map((category) => CategoryCard(
+                              imageUrl: category.imageUrl,
+                              name: category.name,
+                            ))
+                        .toList(),
+
+                    /* children: [
+                      SizedBox(
+                        width: defaultMargin,
+                      ),
+                      CategoryCard(
+                        imageUrl: 'assets/images/web-job-2.png',
+                        name: 'Web Developer',
+                      ),
+                      CategoryCard(
+                        imageUrl: 'assets/images/mobile-job.png',
+                        name: 'Mobile Developer',
+                      ),
+                      CategoryCard(
+                        imageUrl: 'assets/images/app-job.png',
+                        name: 'App Designer',
+                      ),
+                      CategoryCard(
+                        imageUrl: 'assets/images/content-job.png',
+                        name: 'Content Writer',
+                      ),
+                      CategoryCard(
+                        imageUrl: 'assets/images/video-job.png',
+                        name: 'Video Grapher',
+                      ),
+                    ],*/
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
           ),
           SizedBox(height: 30.0),
