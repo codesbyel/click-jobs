@@ -1,5 +1,10 @@
+import 'package:click_jobs/models/user_model.dart';
+import 'package:click_jobs/providers/auth_provider.dart';
+import 'package:click_jobs/providers/user_provider.dart';
 import 'package:click_jobs/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -10,8 +15,23 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController(text: '');
   TextEditingController passwordController = TextEditingController(text: '');
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
+    void _showToast(BuildContext context) {
+      final scaffold = Scaffold.of(context);
+      scaffold.showSnackBar(
+        SnackBar(
+          content: Text('Error, Try Again!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(top: 30),
@@ -142,27 +162,48 @@ class _SignInPageState extends State<SignInPage> {
         height: 45,
         width: double.infinity,
         margin: EdgeInsets.only(top: 40),
-        child: TextButton(
-          onPressed: () async {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/home',
-              (route) => false,
-            );
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(66),
-            ),
-          ),
-          child: Text(
-            'Sign In',
-            style: whiteTextStyle.copyWith(
-              fontWeight: medium,
-            ),
-          ),
-        ),
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : TextButton(
+                onPressed: () async {
+                  if (emailController.text.isEmpty ||
+                      passwordController.text.isEmpty) {
+                    _showToast(context);
+                  } else {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    UserModel user = await authProvider.login(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                    setState(() {
+                      isLoading = false;
+                    });
+                    if (user == null) {
+                      _showToast(context);
+                    } else {
+                      userProvider.user = user;
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/home', (route) => false);
+                    }
+                  }
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(66),
+                  ),
+                ),
+                child: Text(
+                  'Sign In',
+                  style: whiteTextStyle.copyWith(
+                    fontWeight: medium,
+                  ),
+                ),
+              ),
       );
     }
 
@@ -190,6 +231,7 @@ class _SignInPageState extends State<SignInPage> {
 
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.symmetric(
