@@ -1,5 +1,7 @@
 import 'package:click_jobs/models/category_model.dart';
+import 'package:click_jobs/models/job_model.dart';
 import 'package:click_jobs/providers/category_provider.dart';
+import 'package:click_jobs/providers/job_provider.dart';
 import 'package:click_jobs/providers/user_provider.dart';
 import 'package:click_jobs/theme.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
     var categoryProvider = Provider.of<CategoryProvider>(context);
+    var jobProvider = Provider.of<JobProvider>(context);
 
     Widget header() {
       return Container(
@@ -91,40 +94,20 @@ class HomePage extends StatelessWidget {
               future: categoryProvider.getCategories(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
+                  int index = -1;
+
                   return ListView(
                     scrollDirection: Axis.horizontal,
-                    children: snapshot.data
-                        .map((category) => CategoryCard(
-                              imageUrl: category.imageUrl,
-                              name: category.name,
-                            ))
-                        .toList(),
+                    children: snapshot.data.map((category) {
+                      index++;
 
-                    /* children: [
-                      SizedBox(
-                        width: defaultMargin,
-                      ),
-                      CategoryCard(
-                        imageUrl: 'assets/images/web-job-2.png',
-                        name: 'Web Developer',
-                      ),
-                      CategoryCard(
-                        imageUrl: 'assets/images/mobile-job.png',
-                        name: 'Mobile Developer',
-                      ),
-                      CategoryCard(
-                        imageUrl: 'assets/images/app-job.png',
-                        name: 'App Designer',
-                      ),
-                      CategoryCard(
-                        imageUrl: 'assets/images/content-job.png',
-                        name: 'Content Writer',
-                      ),
-                      CategoryCard(
-                        imageUrl: 'assets/images/video-job.png',
-                        name: 'Video Grapher',
-                      ),
-                    ],*/
+                      return Container(
+                        margin: EdgeInsets.only(
+                          left: index == 0 ? defaultMargin : 0,
+                        ),
+                        child: CategoryCard(category),
+                      );
+                    }).toList(),
                   );
                 }
                 return Center(
@@ -157,6 +140,27 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 24,
             ),
+            FutureBuilder<List<JobModel>>(
+              future: jobProvider.getJobs(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Column(
+                    children: snapshot.data
+                        .map((job) => JobTile(
+                              companyLogo: job.companyLogo,
+                              name: job.name,
+                              companyName: job.companyName,
+                            ))
+                        .toList(),
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
+
+            /*
             JobTile(
               companyLogo: 'assets/images/google-logo.png',
               name: 'Front-End Developer',
@@ -171,7 +175,7 @@ class HomePage extends StatelessWidget {
               companyLogo: 'assets/images/facebook-logo.png',
               name: 'Data Scientist',
               companyName: 'Facebook',
-            ),
+            ),*/
           ],
         ),
       );
