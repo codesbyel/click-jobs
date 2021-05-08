@@ -1,6 +1,11 @@
+import 'package:click_jobs/models/user_model.dart';
+import 'package:click_jobs/providers/auth_provider.dart';
+import 'package:click_jobs/providers/user_provider.dart';
 import 'package:click_jobs/theme.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -11,10 +16,27 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController emailController = TextEditingController(text: '');
   TextEditingController passwordController = TextEditingController(text: '');
-  TextEditingController motivationController = TextEditingController(text: '');
+  TextEditingController goalController = TextEditingController(text: '');
+
+  bool isLoading = false;
+
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
+    void showError(String message) {
+      Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(top: 30),
@@ -224,7 +246,7 @@ class _SignUpPageState extends State<SignUpPage> {
               height: 8,
             ),
             TextFormField(
-              controller: motivationController,
+              controller: goalController,
               cursorColor: primaryColor,
               onChanged: (value) {
                 setState(() {});
@@ -260,24 +282,52 @@ class _SignUpPageState extends State<SignUpPage> {
         margin: EdgeInsets.only(top: 40),
         height: 45,
         width: double.infinity,
-        child: TextButton(
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/home', (route) => false);
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(66),
-            ),
-          ),
-          child: Text(
-            'Sign Up',
-            style: whiteTextStyle.copyWith(
-              fontWeight: medium,
-            ),
-          ),
-        ),
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : TextButton(
+                onPressed: () async {
+                  if (nameController.text.isEmpty ||
+                      emailController.text.isEmpty ||
+                      passwordController.text.isEmpty ||
+                      goalController.text.isEmpty) {
+                    showError('Email has been registered!');
+                  } else {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    UserModel user = await authProvider.register(
+                      emailController.text,
+                      passwordController.text,
+                      nameController.text,
+                      goalController.text,
+                    );
+                    setState(() {
+                      isLoading = false;
+                    });
+                    if (user == null) {
+                      showError('Email has been registered!');
+                    } else {
+                      userProvider.user = user;
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/home', (route) => false);
+                    }
+                  }
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(66),
+                  ),
+                ),
+                child: Text(
+                  'Sign Up',
+                  style: whiteTextStyle.copyWith(
+                    fontWeight: medium,
+                  ),
+                ),
+              ),
       );
     }
 
@@ -301,6 +351,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: Container(
           width: MediaQuery.of(context).size.width,
