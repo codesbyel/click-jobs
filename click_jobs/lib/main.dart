@@ -5,6 +5,7 @@ import 'package:click_jobs/pages/sign_up_page.dart';
 import 'package:click_jobs/pages/splash_page.dart';
 import 'package:click_jobs/providers/auth_provider.dart';
 import 'package:click_jobs/providers/category_provider.dart';
+import 'package:click_jobs/providers/job_provider.dart';
 import 'package:click_jobs/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<CategoryProvider>(
           create: (context) => CategoryProvider(),
+        ),
+        ChangeNotifierProvider<JobProvider>(
+          create: (context) => JobProvider(),
         ),
       ],
       child: MaterialApp(
