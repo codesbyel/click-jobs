@@ -32,13 +32,13 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/jobs-image-2.png',
-              width: 200.0,
+              'assets/images/click-jobs-logo.png',
+              width: 185.0,
               color: Colors.white,
             ),
             SizedBox(height: 15),
             Text(
-              'CLICK JOBS',
+              'Click Jobs',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
