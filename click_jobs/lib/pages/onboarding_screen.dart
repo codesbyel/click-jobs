@@ -89,6 +89,7 @@ class OnboardingPage extends StatelessWidget {
                     child: Text(
                       'Sign In',
                       style: whiteTextStyle.copyWith(
+                        fontSize: 14,
                         fontWeight: medium,
                       ),
                     ),
